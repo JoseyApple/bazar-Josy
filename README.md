@@ -75,6 +75,27 @@ npm run serve
   ```
 
 ---
+### 3. Probar la aplicación
+https://bazar-josy-frontproduction.up.railway.app/
+![image](https://github.com/user-attachments/assets/b2b764e1-09b5-476e-a6f0-954e6171e413)
+
+En la aplicación podemos buscar los productos usando el buscador.
+
+![image](https://github.com/user-attachments/assets/a6e2226b-3a5a-466d-9bc5-b86801bf1720)
+
+A continuación hacemos clic sobre el nombre del producto para acceder a toda su información y la posibilidad de añadirlo a nuestra cesta de compra.
+
+![image](https://github.com/user-attachments/assets/a5fc2e8a-4f5f-4846-aa03-3ad06bfe1441)
+
+Si lo añadimos a la cesta, este producto se añade y lo podemos consultar en la parte superior derecha de la aplicación. Aquí podemos vaciar la cesta, eliminar un producto específico a través de un botón y además del coste total.
+
+![image](https://github.com/user-attachments/assets/37a871cb-a60d-43e1-8390-cc32af868687)
+
+Y para terminar, la aplicación guarda nuestra sesión y si volvemos al inicio, la cesta sigue estando activa.
+
+![image](https://github.com/user-attachments/assets/38aa723b-f2dd-49f5-afd2-086f87b53b77)
+
+
 
 ## Notas Adicionales
 - Asegúrate de que el backend esté corriendo en el puerto `3000` antes de iniciar el frontend.
