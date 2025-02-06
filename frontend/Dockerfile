@@ -28,4 +28,6 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 
 # Iniciar el servidor Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
+
+
