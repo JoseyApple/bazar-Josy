@@ -1,6 +1,5 @@
 import { reactive } from "vue";
 
-// Estado reactivo de la cesta
 export const cartState = reactive({
   cartItems: JSON.parse(localStorage.getItem("cart")) || [],
 });
@@ -9,13 +8,13 @@ export const cartState = reactive({
 export const addToCart = (product) => {
   if (!cartState.cartItems.some((item) => item.id === product.id)) {
     cartState.cartItems.push(product);
-    localStorage.setItem("cart", JSON.stringify(cartState.cartItems)); // Sincronizar con localStorage
+    localStorage.setItem("cart", JSON.stringify(cartState.cartItems));
   }
 };
 
-// Vaciar la cesta (corregido)
+// Vaciar la cesta
 export const clearCart = () => {
-  cartState.cartItems.splice(0, cartState.cartItems.length); // Mantiene la reactividad
+  cartState.cartItems = [];
   localStorage.setItem("cart", JSON.stringify(cartState.cartItems));
 };
 
@@ -24,6 +23,7 @@ export const removeFromCart = (index) => {
   cartState.cartItems.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cartState.cartItems));
 };
+
 
 
 
