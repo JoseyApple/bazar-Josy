@@ -6,17 +6,20 @@
     # Establece el directorio de trabajo dentro del contenedor
     WORKDIR /app
     
+    # Instala npx y otras utilidades necesarias
+    RUN apk add --no-cache bash git openssh
+    
     # Copia package.json y package-lock.json primero para aprovechar la caché de Docker
     COPY package.json package-lock.json ./
     
-    # Instala todas las dependencias, incluidas las de desarrollo
+    # Instala todas las dependencias necesarias
     RUN npm install
+    
+    # Instala Vue CLI globalmente para que `vue-cli-service build` funcione
+    RUN npm install -g @vue/cli
     
     # Copia el resto del código fuente
     COPY . .
-    
-    # Instala Vue CLI globalmente para evitar errores
-    RUN npm install -g @vue/cli
     
     # Construye la aplicación
     RUN npm run build
