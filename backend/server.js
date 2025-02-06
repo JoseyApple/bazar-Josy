@@ -4,30 +4,22 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-
-// ⬇️ Usa el puerto que proporciona Railway o por defecto el 3000 (para desarrollo local)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // ⚠️ Usa process.env.PORT en Railway
 
 app.use(cors());
 app.use(express.json());
 
-// ⬇️ Intenta cargar el archivo JSON con manejo de errores
-let products = [];
+// Ruta para cargar el JSON
+const rawData = fs.readFileSync(path.join(__dirname, "products.json"));
+const productsData = JSON.parse(rawData);
+const products = productsData.products;
 
-try {
-  const rawData = fs.readFileSync(path.join(__dirname, "products.json"), "utf8");
-  const productsData = JSON.parse(rawData);
-  products = productsData.products || [];
-} catch (error) {
-  console.error("Error al cargar el archivo JSON:", error);
-}
-
-// ✅ **Endpoint para obtener todos los productos**
+// Endpoint para obtener productos
 app.get("/api/products", (req, res) => {
   res.json(products);
 });
 
-// ✅ **Endpoint de búsqueda de productos**
+// Endpoint de búsqueda
 app.get("/api/items", (req, res) => {
   const query = req.query.q?.toLowerCase() || "";
   const results = products.filter(product =>
@@ -37,17 +29,8 @@ app.get("/api/items", (req, res) => {
   res.json({ items: results });
 });
 
-// ✅ **Endpoint de detalles de producto por ID**
-app.get("/api/items/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const product = products.find(p => p.id === id);
-  if (!product) {
-    return res.status(404).json({ error: "Producto no encontrado" });
-  }
-  res.json(product);
+// Arrancar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-// ⬇️ Mensaje en consola cuando el servidor está activo
-app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT} o en Railway`);
-});
