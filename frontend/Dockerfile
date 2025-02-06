@@ -9,11 +9,14 @@
     # Copia package.json y package-lock.json primero para aprovechar la caché de Docker
     COPY package.json package-lock.json ./
     
-    # Instala dependencias sin guardar paquetes innecesarios
-    RUN npm install --production
+    # Instala todas las dependencias, incluidas las de desarrollo
+    RUN npm install
     
     # Copia el resto del código fuente
     COPY . .
+    
+    # Instala Vue CLI globalmente para evitar errores
+    RUN npm install -g @vue/cli
     
     # Construye la aplicación
     RUN npm run build
@@ -32,4 +35,3 @@
     # Iniciar el servidor Nginx
     CMD ["nginx", "-g", "daemon off;"]
     
-
