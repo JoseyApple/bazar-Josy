@@ -15,23 +15,20 @@ Clonar el repositorio (opcional)
 Si aún no tienes el proyecto en tu máquina:
 ```
 git clone https://github.com/tu-usuario/tu-repositorio.git
-```
 cd tu-repositorio
 ```
-
 1. Desplegar el Backend
 Navegar al directorio del backend:
 
 ```
 cd backend
-```
 Instalar dependencias:
 
 ```
 npm install
-```
+
 Ejecutar el servidor:
-```
+
 node server.js
 ```
 Verificar:
