@@ -67,6 +67,11 @@ npm install
 npm run serve
 ```
 
+- Ejecutar los tests:
+```bash
+npx vitest
+```
+
 - Verificar:
   El frontend debería iniciarse en `http://localhost:8080`.  
   Abre el navegador y visita:
