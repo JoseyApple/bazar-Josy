@@ -1,12 +1,11 @@
-# Usa una imagen ligera de Nginx para servir los archivos estáticos
+# Usa una imagen de Node.js para construir el frontend
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+
+# Usa una imagen de Nginx para servir el frontend
 FROM nginx:alpine
-
-# Copia los archivos del frontend al servidor Nginx
-COPY dist /usr/share/nginx/html
-
-# Expone el puerto 80
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
-
-# Arranca Nginx
-CMD ["nginx", "-g", "daemon off;"]
-
