@@ -1,17 +1,18 @@
-# Usa una imagen de Node.js
+# Usa una imagen oficial de Node.js
 FROM node:18-alpine
 
-# Establece el directorio de trabajo
+# Establece el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copia los archivos del proyecto
+# Copia los archivos de tu proyecto al contenedor
 COPY . .
 
-# Instala las dependencias
+# Instala las dependencias del proyecto
 RUN npm install
 
-# Expone el puerto (ajusta si usas otro)
+# Expone el puerto que utiliza el backend
 EXPOSE 5000
 
-# Comando para iniciar el backend
-CMD ["npm", "start"]
+# Comando para iniciar la aplicación
+CMD ["node", "server.js"]
+
