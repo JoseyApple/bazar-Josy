@@ -13,9 +13,9 @@ const dataPath = path.join(__dirname, "products.json");
 let products = [];
 if (fs.existsSync(dataPath)) {
   try {
-    const rawData = fs.readFileSync(dataPath);
+    const rawData = fs.readFileSync(dataPath, "utf8");
     const productsData = JSON.parse(rawData);
-    products = productsData.products || []; // Usa un array vacío si no hay productos
+    products = Array.isArray(productsData.products) ? productsData.products : [];
   } catch (error) {
     console.error("❌ Error al leer products.json:", error);
   }
@@ -28,7 +28,7 @@ app.use(express.json());
 
 // ✅ Endpoint para obtener productos
 app.get("/api/products", (req, res) => {
-  if (products.length === 0) {
+  if (!products.length) {
     return res.status(404).json({ error: "No hay productos disponibles." });
   }
   res.json(products);
@@ -42,6 +42,16 @@ app.get("/api/items", (req, res) => {
     product.description.toLowerCase().includes(query)
   );
   res.json({ items: results });
+});
+
+// ✅ Endpoint para obtener detalles de un producto por ID
+app.get("/api/items/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const product = products.find(p => p.id === id);
+  if (!product) {
+    return res.status(404).json({ error: "Producto no encontrado." });
+  }
+  res.json(product);
 });
 
 // ✅ Servidor corriendo en Railway
