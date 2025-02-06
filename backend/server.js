@@ -43,3 +43,9 @@ app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
+const cors = require("cors");
+
+app.use(cors({
+  origin: "*", // O reemplaza con tu URL de frontend en Railway
+  methods: ["GET", "POST", "PUT", "DELETE"]
+}));
