@@ -46,7 +46,7 @@ node server.js
   El servidor debería iniciarse en `http://localhost:3000`.  
   Puedes comprobarlo abriendo el navegador y visitando:
   ```
-  [http://localhost:3000/api/products](http://localhost:3000/api/products](http://localhost:3000/api/products)
+  http://localhost:3000/api/products
   ```
 
 ---
