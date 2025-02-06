@@ -81,7 +81,6 @@ npx vitest
 
 ---
 ### 3. Probar la aplicación
-https://bazar-josy-frontproduction.up.railway.app/
 ![image](https://github.com/user-attachments/assets/b2b764e1-09b5-476e-a6f0-954e6171e413)
 
 En la aplicación podemos buscar los productos usando el buscador.
