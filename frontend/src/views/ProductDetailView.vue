@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api/api"; // Importa el cliente configurado
 import "./estilos/productosEstilos.css";
 import { addToCart } from "../cartState.js"; // Importa la función correctamente
 
@@ -49,8 +49,8 @@ export default {
   },
   mounted() {
     const productId = this.$route.params.id;
-    axios
-      .get(`http://localhost:3000/api/items/${productId}`)
+    api
+      .get(`/api/items/${productId}`) // Usa el cliente Axios configurado
       .then((response) => {
         this.product = response.data;
         this.calculateStars();
@@ -75,6 +75,7 @@ export default {
   },
 };
 </script>
+
 
 
 
