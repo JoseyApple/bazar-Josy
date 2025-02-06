@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api/api"; // Importa la instancia de Axios configurada
 import "./estilos/search.css";
 
 export default {
@@ -55,9 +55,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/items?q=${this.searchQuery}`
-        );
+        const response = await api.get(`/api/items?q=${this.searchQuery}`);
         this.items = response.data.items;
       } catch (error) {
         console.error("Error fetching search results:", error);

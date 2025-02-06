@@ -1,66 +1,82 @@
 <template>
-  <div>
-    <div class="cart-container">
-      <button class="open-cart" @click="toggleCart">
-        🛒 Ver Cesta
-        <span v-if="cartItems.length" class="cart-counter">{{ cartItems.length }}</span>
-      </button>
-    </div>
-
-    <div v-if="isOpen" class="cart-overlay" @click.self="toggleCart">
-      <div class="cart-panel">
-        <h2>Tu Cesta</h2>
-
-        <!-- Mensaje cuando la cesta está vacía -->
-        <p v-if="!cartItems.length" class="empty-message">La cesta está vacía.</p>
-
-        <ul v-if="cartItems.length">
-          <li v-for="(item, index) in cartItems" :key="index">
-            <img :src="item.thumbnail" alt="Product Thumbnail" class="cart-thumbnail" />
-            <div>
-              <p><strong>{{ item.title }}</strong></p>
-              <p>Precio: ${{ item.price }}</p>
-              <button @click="removeItem(index)" class="remove-button">Eliminar</button>
-            </div>
-          </li>
-        </ul>
-
-        <p v-if="cartItems.length" class="total-amount">
-          <strong>Total:</strong> ${{ totalPrice }}
-        </p>
-
-        <button v-if="cartItems.length" @click="clearCart" class="clear-cart">Vaciar Cesta</button>
-        <button @click="toggleCart" class="close-cart">Cerrar</button>
+  <div class="product-detail" v-if="product">
+    <h1>{{ product.title }}</h1>
+    <img :src="product.thumbnail" alt="Product Image" class="product-image" />
+    <p class="product-description">{{ product.description }}</p>
+    <p class="product-price">Precio: ${{ product.price }}</p>
+    <p class="product-category">Categoría: {{ product.category }}</p>
+    <p class="product-stock">Stock: {{ product.stock }}</p>
+    <div class="product-rating">
+      <p>Calificación:</p>
+      <div class="stars">
+        <img
+          v-for="star in fullStars"
+          :key="'full-' + star"
+          src="@/assets/estrellaCompleta.png"
+          alt="Full Star"
+          class="star"
+        />
+        <img
+          v-if="hasHalfStar"
+          src="@/assets/estrellaMitad.png"
+          alt="Half Star"
+          class="star"
+        />
       </div>
     </div>
+    <div class="buttons">
+      <button @click="handleAddToCart" class="add-to-cart">Añadir a la cesta</button>
+      <router-link to="/" class="back-link">Volver al inicio</router-link>
+    </div>
+  </div>
+  <div v-else>
+    <p v-if="error">{{ error }}</p>
+    <p v-else>Cargando producto...</p>
   </div>
 </template>
 
 <script>
-import { cartState, clearCart, removeFromCart } from "../cartState.js";
+import api from "@/api/api"; // Importa el cliente configurado con Axios
+import "./estilos/productosEstilos.css";
+import { addToCart } from "../cartState.js"; // Importa la función de la cesta
 
 export default {
-  name: "ShoppingCart",
   data() {
     return {
-      isOpen: false,
+      product: null,
+      fullStars: 0,
+      hasHalfStar: false,
+      error: null, // Para manejar errores en la carga
     };
   },
-  computed: {
-    cartItems() {
-      return cartState.cartItems;
-    },
-    totalPrice() {
-      return this.cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
-    },
+  mounted() {
+    const productId = this.$route.params.id;
+    console.log("🔍 Buscando producto con ID:", productId); // Depuración
+
+    api
+      .get(`/api/products/${productId}`) // 🚀 Cambiado a la ruta correcta en Render
+      .then((response) => {
+        console.log("✅ Producto recibido:", response.data); // Depuración
+        this.product = response.data;
+        this.calculateStars();
+      })
+      .catch((error) => {
+        console.error("❌ Error al cargar el producto:", error);
+        this.error = "No se pudo cargar el producto. Verifica tu conexión o intenta nuevamente.";
+        this.product = null;
+      });
   },
   methods: {
-    toggleCart() {
-      this.isOpen = !this.isOpen;
+    calculateStars() {
+      if (this.product && this.product.rating) {
+        const rating = this.product.rating;
+        this.fullStars = Math.floor(rating);
+        this.hasHalfStar = rating % 1 >= 0.5;
+      }
     },
-    clearCart,
-    removeItem(index) {
-      removeFromCart(index);
+    handleAddToCart() {
+      addToCart(this.product); // Añadir producto a la cesta
+      alert("Producto añadido a la cesta!");
     },
   },
 };
