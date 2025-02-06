@@ -37,7 +37,7 @@
 
 <script>
 import api from "@/api/api"; // Importa el cliente configurado con Axios
-import "./estilos/productosEstilos.css";
+import "../views/estilos/productosEstilos.css";
 import { addToCart } from "../cartState.js"; // Importa la función de la cesta
 
 export default {
